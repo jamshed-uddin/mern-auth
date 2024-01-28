@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-
+import User from "../models/userModel.js";
 //desc  auth user
 //route  POST/api/users/auth
 //access public
@@ -10,6 +10,7 @@ const authUser = asyncHandler(async (req, res) => {
 //route POST/api/users
 //access public
 const registerUser = asyncHandler(async (req, res) => {
+  console.log(req.body);
   res.status(200).json({ message: "Create new user" });
 });
 //desc  create new user
