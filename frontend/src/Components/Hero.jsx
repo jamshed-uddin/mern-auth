@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <div className="hero ">
       <div className="hero-content text-center">
@@ -11,12 +14,13 @@ const Hero = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <Link to={"/signin"} className="btn btn-sm  btn-primary mr-3">
-            Sign in
-          </Link>
-          <Link to={"/signup"} className="btn btn-sm ">
-            Sign up
-          </Link>
+          {!userInfo && (
+            <>
+              <Link to={"/signin"} className="btn btn-sm  btn-primary mr-3">
+                Sign in
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

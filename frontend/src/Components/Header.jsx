@@ -1,9 +1,26 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../Slices/userApiSlice";
+import { logout } from "../Slices/authSlice";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
   console.log(userInfo);
+
+  const dispath = useDispatch();
+  const navigate = useNavigate();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispath(logout());
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="shadow-md ">
@@ -27,25 +44,31 @@ const Header = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+              <div
+                title={userInfo && userInfo?.email}
+                className="avatar placeholder"
+              >
+                <div className="bg-neutral text-neutral-content rounded-full w-10">
+                  <span className="">
+                    {userInfo ? userInfo?.name.charAt(0).toUpperCase() : ""}
+                  </span>
+                </div>
               </div>
             </div>
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li className="ml-3 font-semibold">
-                {userInfo ? userInfo.name : "User name"}
-              </li>
+              <Link to={"/profile"}>
+                <li className="ml-3 font-semibold text-lg hover:scale-95">
+                  {userInfo ? userInfo.name : "User name"}
+                </li>
+              </Link>
               <li>
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                {userInfo && <button onClick={logoutHandler}>Logout</button>}
               </li>
             </ul>
           </div>

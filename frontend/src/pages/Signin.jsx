@@ -10,7 +10,6 @@ const Signin = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log({ email, password });
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -74,7 +73,7 @@ const Signin = () => {
               type="submit"
               className="btn btn-primary"
             >
-              Login
+              {isLoading ? "Loging in ..." : "Login"}
             </button>
           </div>
         </form>
