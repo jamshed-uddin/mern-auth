@@ -8,6 +8,8 @@ import Signin from "./pages/Signin.jsx";
 import Signup from "./pages/Signup.jsx";
 import store from "./store.js";
 import { Provider } from "react-redux";
+import Profile from "./pages/Profile.jsx";
+import PrivateRoute from "./Components/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "signin", element: <Signin /> },
       { path: "signup", element: <Signup /> },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

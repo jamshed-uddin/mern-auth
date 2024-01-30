@@ -61,15 +61,17 @@ const Header = () => {
             >
               <Link to={"/profile"}>
                 <li className="ml-3 font-semibold text-lg hover:scale-95">
-                  {userInfo ? userInfo.name : "User name"}
+                  {userInfo ? userInfo.name : "User profile"}
                 </li>
               </Link>
               <li>
                 <a>Settings</a>
               </li>
-              <li>
-                {userInfo && <button onClick={logoutHandler}>Logout</button>}
-              </li>
+              {userInfo && (
+                <li>
+                  <button onClick={logoutHandler}>Logout</button>
+                </li>
+              )}
             </ul>
           </div>
         </div>

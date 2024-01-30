@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../Slices/userApiSlice";
 import { setCredentials } from "../Slices/authSlice";
 import toast from "react-hot-toast";
@@ -11,7 +11,10 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const location = useLocation();
+  console.log(location);
 
+  const from = location.state?.from?.pathname || "/";
   const [register, { isLoading }] = useRegisterMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -32,7 +35,7 @@ const Signup = () => {
     try {
       const res = await register({ name, email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate("/");
+      navigate(from, { replace: true });
       toast.success("Successfully signed in");
     } catch (error) {
       toast.error(error?.data?.message || error?.error);

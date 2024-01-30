@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../Slices/userApiSlice";
 import { setCredentials } from "../Slices/authSlice";
 import toast from "react-hot-toast";
@@ -12,6 +12,9 @@ const Signin = () => {
   const [password, setPassword] = useState("");
 
   const [login, { isLoading }] = useLoginMutation();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -27,7 +30,7 @@ const Signin = () => {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate("/");
+      navigate(from, { replace: true });
       toast.success("Successfully logged in");
     } catch (error) {
       toast.error(error?.data?.message || error?.error);
